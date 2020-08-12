@@ -76,12 +76,12 @@ void MainWindow::on_orderNumberEdit_returnPressed()
             return;
         }
     }
-    if(orderNum.size() < 10){
-        QMessageBox::critical(this,tr("Error"),tr("伝票番号は１０桁以上です。"));
+    if(orderNum.size() != 8 && orderNum.size() != 9){
+        QMessageBox::critical(this,tr("Error"),tr("伝票番号は８桁または９桁です。"));
         return;
     }
 
-    QString orderDir = orderNum.left(4) + "/" + orderNum.mid(4, 2) + "/" + orderNum.right(orderNum.length() - 6);
+    QString orderDir = "20" + orderNum.left(2) + "/" + orderNum.mid(2, 2) + "/" + orderNum.right(orderNum.length() - 4);
 
     QString path = root + '/' + orderDir;
 
