@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QtWidgets>
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -15,7 +16,13 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 
+private slots:
+    void on_openDirectoryButton_clicked();
+
+    void on_orderNumberEdit_returnPressed();
+
 private:
     Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H
