@@ -14,7 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     //設定ファイル読み込み
     QString path = QStandardPaths::writableLocation(QStandardPaths::ConfigLocation);
     QSettings settings(path+"/order_directory.ini", QSettings::IniFormat);
-
+    //qDebug() << path;
     settings.setIniCodec(QTextCodec::codecForName("UTF-8"));
     settings.beginGroup("CONFIG");
     int windowX = settings.value("POSITION_X",50).toInt();
@@ -25,6 +25,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     //ルートパスデフォルト値
     ui->rootPathEdit->setText(rootPath);
+
+    //新規作成モード
+    bool isChecked = settings.value("CREATE_DIR_MODE",true).toBool();
+    ui->createDirectoryCheck->setChecked(isChecked);
 
     // 伝票テキストボックスにフォーカス
     ui->orderNumberEdit->setFocus();
@@ -42,6 +46,7 @@ MainWindow::~MainWindow()
     settings.setValue("POSITION_X",this->x());
     settings.setValue("POSITION_Y",this->y());
     settings.setValue("ROOT_PATH",ui->rootPathEdit->text());
+    settings.setValue("CREATE_DIR_MODE",ui->createDirectoryCheck->isChecked());
     delete ui;
 }
 
@@ -134,7 +139,7 @@ void MainWindow::on_orderNumberEdit_returnPressed()
                 QString orderDir = yearDirName + '/' + monthDirName + '/' + orderNum;
                 QString searchPath = root + '/' + orderDir;
                 QDir searchDir(searchPath);
-                qDebug() << searchPath;
+                //qDebug() << searchPath;
                 if(searchDir.exists()){
                     //ディレクトリ開く
                     QDesktopServices::openUrl( QUrl::fromLocalFile ( searchPath ));
